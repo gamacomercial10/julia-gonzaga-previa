@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Júlia Gonzaga · Body Piercer em Coronel Fabriciano/MG</title>
+  <meta name="description" content="Body piercer desde 2020 em Coronel Fabriciano/MG. Perfurando com amor e profissionalismo, com joias de titânio selecionadas. Agende pelo WhatsApp.">
+  <meta name="theme-color" content="#120e0a">
+  <meta property="og:title" content="Júlia Gonzaga · Body Piercer">
+  <meta property="og:description" content="Perfurando com amor e profissionalismo desde 2020. Coronel Fabriciano/MG.">
+  <meta property="og:type" content="website">
+
+  <link rel="preload" href="fonts/Poppins-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Poppins-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/onca-base.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <script>
+    // Liga a abertura só se o JS roda e a pessoa não pediu menos movimento.
+    // Trava de segurança: se algo falhar, tudo aparece em 5s.
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        d.classList.add('intro-run');
+        setTimeout(function () { d.classList.remove('intro-run'); d.classList.add('intro-done'); }, 6500);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- Rosetas do Codex (rosetas-camada-1/2.webp): fundo em duas profundidades -->
+  <div class="bgfur" aria-hidden="true">
+    <div class="bgfur__l bgfur__l--1"></div>
+    <div class="bgfur__l bgfur__l--2"></div>
+  </div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <main class="page">
+
+    <!-- 1. HERO -->
+    <header class="hero" id="topo">
+      <div class="hero__art">
+      <!-- Retrato da Júlia (foto original dela, tratamento "penumbra"; sem IA) -->
+      <div class="julia" aria-hidden="true"><img src="assets/julia-penumbra.webp" alt="" width="900" height="1126" decoding="async"></div>
+      <div class="onca" data-onca>
+        <!-- Arte do Codex: mesma moldura e mesmo tamanho nas duas camadas -->
+        <img class="onca__base" src="assets/onca-base.webp" alt="" width="1200" height="1200" decoding="async" fetchpriority="high">
+        <img class="onca__glow" src="assets/onca-olhos.webp" alt="" width="1200" height="1200" decoding="async">
+        <img class="onca__eyes" src="assets/onca-olhos.webp" alt="" width="1200" height="1200" decoding="async">
+        <p class="onca__slot">Arte da onça (hero)<br><small>aguardando assets/onca-base.webp e assets/onca-olhos.webp</small></p>
+      </div>
+      </div>
+
+      <h1 class="hero__name" id="nome">
+        <span class="hero__name-main">Júlia Gonzaga</span>
+        <span class="hero__name-sub">Body Piercer</span>
+      </h1>
+
+      <ul class="hero__meta" aria-label="Sobre">
+        <li>desde 2020</li>
+        <li>Coronel Fabriciano/MG</li>
+      </ul>
+
+      <div class="hero__cta">
+        <a class="btn btn--fur" data-wa="agendar" href="https://wa.me/5531986495624" target="_blank" rel="noopener">
+          <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
+          <span>Agendar pelo WhatsApp</span>
+        </a>
+        <a class="btn btn--line btn--group" href="https://chat.whatsapp.com/IzowIdHR0as0BeqfcWcooB" target="_blank" rel="noopener">
+          <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-group"/></svg>
+          <span>Grupo Exclusivo</span>
+        </a>
+        <p class="hero__note">Horários e valores direto comigo no WhatsApp.</p>
+      </div>
+    </header>
+
+    <!-- 2. PROVA SOCIAL: fotos reais de clientes da Júlia -->
+    <section class="section reveal" id="clientes" aria-labelledby="t-clientes">
+      <h2 class="section__title" id="t-clientes">Quem já furou comigo</h2>
+      <p class="section__lead">Algumas das perfurações que eu fiz. Toque para assistir.</p>
+      <!-- 3 vídeos reais da Júlia (assets/videos/video-0N.mp4). Tocam no próprio card. -->
+      <div class="reels" data-reels>
+        <figure class="reel">
+          <button class="reel__play" type="button" data-reel data-mp4="assets/videos/video-01.mp4" aria-label="Assistir vídeo: duplinha na orelha">
+            <img src="assets/videos/video-01.jpg" alt="Orelha com piercings de titânio recém-feitos, coberta por campo cirúrgico" width="480" height="852" loading="lazy" decoding="async">
+            <span class="reel__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-play"/></svg></span>
+          </button>
+          <figcaption><strong>Duplinha</strong><span>Orelha · titânio</span></figcaption>
+        </figure>
+        <figure class="reel">
+          <button class="reel__play" type="button" data-reel data-mp4="assets/videos/video-02.mp4" aria-label="Assistir vídeo: orelha completa com flat e hélix">
+            <img src="assets/videos/video-02.jpg" alt="Orelha com flat e hélix perfurados e joias de titânio" width="480" height="853" loading="lazy" decoding="async">
+            <span class="reel__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-play"/></svg></span>
+          </button>
+          <figcaption><strong>Flat e hélix</strong><span>Joias trocadas · titânio</span></figcaption>
+        </figure>
+        <figure class="reel">
+          <button class="reel__play" type="button" data-reel data-mp4="assets/videos/video-03.mp4" aria-label="Assistir vídeo: piercing no umbigo">
+            <img src="assets/videos/video-03.jpg" alt="Piercing no umbigo" width="480" height="852" loading="lazy" decoding="async">
+            <span class="reel__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-play"/></svg></span>
+          </button>
+          <figcaption><strong>Umbigo</strong><span>Joia de titânio</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="proof" data-proof hidden></div>
+      <a class="proof__more" href="https://www.instagram.com/juliagonzagabodypiercer/" target="_blank" rel="noopener">
+        Ver mais no meu Instagram
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+    </section>
+  </main>
+
+  <!-- Ícones -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.23 8.23 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.2 8.2 0 0 1 8.24 8.25c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.29Z"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></symbol>
+    <symbol id="i-group" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><circle cx="16.8" cy="9.3" r="2.5"/><path d="M16.2 14.6c2.4.1 4.3 1.6 4.8 4.4"/></g></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.6v12.8c0 .8.9 1.3 1.6.9l10-6.4a1 1 0 0 0 0-1.7l-10-6.4c-.7-.5-1.6 0-1.6.8Z"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M9 7h8v8"/></symbol>
+  </svg>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

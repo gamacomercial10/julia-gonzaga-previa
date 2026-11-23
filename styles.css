@@ -1,0 +1,464 @@
+/* Júlia Gonzaga · Body Piercer · link da bio
+   Paleta tirada da marca dela: onça em traço preto, olhos verdes, pelagem âmbar.
+   Base quase-preta quente (cena: alguém abrindo o link da bio à noite, no celular). */
+
+:root {
+  --bg: oklch(0.155 0.012 62);
+  --bg-2: oklch(0.19 0.016 62);
+  --line: oklch(0.36 0.03 68 / 0.55);
+  --text: oklch(0.95 0.012 82);
+  --text-dim: oklch(0.79 0.022 76);
+  --amber: oklch(0.78 0.135 70);        /* pelagem */
+  --amber-hi: oklch(0.88 0.11 82);
+  --amber-deep: oklch(0.56 0.12 52);
+  --ink-on-amber: oklch(0.17 0.02 55);
+  --jungle: oklch(0.78 0.14 132);       /* olhos verdes da onça da marca */
+
+  --f-display: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --r: 14px;
+  --col: min(100% - 40px, 480px);
+
+  --z-fx: 0;
+  --z-page: 1;
+  --z-fx-intro: 2;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+body {
+  margin: 0;
+  min-height: 100svh;
+  background:
+    radial-gradient(120% 60% at 50% 0%, oklch(0.22 0.03 62) 0%, transparent 60%),
+    var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.6 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--jungle); outline-offset: 3px; border-radius: 6px; }
+
+/* ---------- Canvas de rosetas ---------- */
+#fx {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: var(--z-fx);
+  pointer-events: none;
+}
+.intro-run #fx { z-index: var(--z-fx-intro); }
+
+/* ---------- Rosetas do fundo (arte do Codex) ---------- */
+.bgfur {
+  position: fixed; inset: 0;
+  overflow: hidden;
+  z-index: var(--z-fx);
+  pointer-events: none;
+}
+.bgfur__l {
+  position: absolute; left: 0; right: 0; top: 0;
+  height: calc(100% + var(--tile-h, 1100px));
+  background-repeat: repeat;
+  background-size: var(--tile-w, 600px) auto;
+  opacity: 0;
+  transition: opacity 1400ms var(--ease-out);
+  will-change: transform;
+}
+.bgfur__l--1 { background-image: url("assets/rosetas-camada-1.webp"); }
+.bgfur__l--2 { background-image: url("assets/rosetas-camada-2.webp"); background-position: 37% 0; }
+html:not(.intro-run) .bgfur__l--1, .s-rest .bgfur__l--1 { opacity: 0.24; }
+html:not(.intro-run) .bgfur__l--2, .s-rest .bgfur__l--2 { opacity: 0.16; }
+
+.page { position: relative; z-index: var(--z-page); overflow-x: clip; } /* retrato da Júlia é mais largo que a tela no celular */
+
+/* ---------- HERO ---------- */
+.hero {
+  width: var(--col);
+  margin-inline: auto;
+  min-height: 100svh;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  padding: max(12px, env(safe-area-inset-top)) 0 28px;
+  text-align: center;
+}
+
+.onca {
+  position: relative;
+  width: min(100%, 420px, 54svh);
+  aspect-ratio: 1;
+  margin-bottom: -14%;           /* nome sobe sobre o queixo da onça */
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
+          mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
+}
+.onca img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+.onca__glow { filter: blur(10px) saturate(1.4); opacity: 0.0; mix-blend-mode: screen; }
+.onca__eyes { opacity: 1; }
+.onca__slot { display: none; }
+
+/* Arte ainda não entregue: espaço identificado, sem imitação */
+.onca--missing { -webkit-mask-image: none; mask-image: none; margin-bottom: 18px; }
+.onca--missing img { display: none; }
+.onca--missing .onca__slot {
+  display: grid; place-content: center;
+  position: absolute; inset: 6%;
+  margin: 0;
+  border: 1px dashed var(--line);
+  border-radius: 50%;
+  color: var(--text-dim);
+  font-size: 0.85rem; line-height: 1.4;
+  padding: 24px;
+}
+.onca--missing .onca__slot small { font-size: 0.72rem; opacity: 0.8; }
+
+/* Retrato da Júlia atrás da onça (tratamento "penumbra").
+   Ancorado no topo da onça: o queixo dela some atrás da cabeça da onça
+   em qualquer altura de tela. */
+.hero__art {
+  position: relative; isolation: isolate;
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  --jw: min(116vw, 53svh, 560px);
+  /* Espaço reservado acima da onça para o rosto inteiro da Júlia (da testa ao queixo).
+     Se a tela for baixa, a página cresce em vez de cortar o rosto no topo. */
+  --jh: calc(var(--jw) * 0.56);
+  padding-top: var(--jh);
+}
+.hero__art .onca { z-index: 1; }
+.hero__name, .hero__meta, .hero__cta { position: relative; z-index: 2; }
+.julia {
+  position: absolute; z-index: 0;
+  top: calc(var(--jh) - var(--jw) * 0.59);
+  left: 50%;
+  width: var(--jw); aspect-ratio: 900 / 1126;
+  transform: translateX(-50%);
+  margin-left: calc(var(--jw) * 0.04);   /* centraliza o rosto (não a foto) no eixo da onça */
+  pointer-events: none;
+  --mb: linear-gradient(to bottom, #000 38%, transparent 56%);
+  --ms: linear-gradient(to right, transparent 2%, #000 22%, #000 84%, transparent 99%);
+  -webkit-mask-image: var(--mb), var(--ms); -webkit-mask-composite: source-in;
+          mask-image: var(--mb), var(--ms); mask-composite: intersect;
+}
+.julia img { display: block; width: 100%; height: 100%; }
+/* Celular baixo (ex.: iPhone SE): não sobra altura para o rosto acima da onça;
+   só apareceria um pedaço do queixo. Melhor esconder do que cortar. */
+@media (max-width: 899px) and (max-height: 740px) { .julia { display: none; } .hero__art { padding-top: 0; } }
+
+.hero__name {
+  position: relative;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1;
+}
+.hero__name-main {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 11vw, 4rem);
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.hero__name-sub {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: clamp(0.95rem, 4.2vw, 1.15rem);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--amber);
+  padding-left: 0.34em; /* compensa o tracking para centralizar */
+}
+
+.hero__meta {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+}
+.hero__meta li {
+  font-size: 0.86rem; font-weight: 500;
+  color: var(--text-dim);
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.hero__cta { width: 100%; margin-top: 26px; }
+.hero__note { margin: 10px 0 0; font-size: 0.86rem; color: var(--text-dim); }
+
+/* ---------- Botões ---------- */
+.btn {
+  position: relative;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%;
+  min-height: 58px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font: 600 1.05rem/1.2 var(--f-body);
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 160ms var(--ease-out), box-shadow 240ms var(--ease-out);
+  touch-action: manipulation;
+}
+.btn__icon { width: 22px; height: 22px; flex: none; }
+.btn:active { transform: scale(0.97); }
+
+/* Dourado com textura de pelagem (a textura entra quando o Codex entregar assets/pelagem-textura.webp) */
+.btn--fur {
+  color: var(--ink-on-amber);
+  background-color: var(--amber);
+  background-image:
+    url("assets/pelagem-textura.webp"),
+    radial-gradient(130% 160% at 30% 0%, var(--amber-hi) 0%, var(--amber) 45%, var(--amber-deep) 100%);
+  background-size: 220px auto, 100% 100%;
+  background-blend-mode: soft-light, normal;
+  box-shadow:
+    0 0 0 1px oklch(0.9 0.1 85 / 0.5) inset,
+    0 6px 8px -2px oklch(0.05 0 0 / 0.5),
+    0 0 28px -4px oklch(0.78 0.135 70 / 0.55);
+}
+.btn--fur::after { /* reflexo dourado que passa de tempos em tempos */
+  content: "";
+  position: absolute; inset: -20% auto -20% 0;
+  width: 40%;
+  background: linear-gradient(100deg, transparent 0%, oklch(1 0.03 90 / 0.55) 50%, transparent 100%);
+  transform: translateX(-160%) skewX(-18deg);
+  animation: shine 5.5s var(--ease-out) 3.4s infinite;
+  z-index: -1;
+  mix-blend-mode: soft-light;
+}
+@keyframes shine {
+  0%   { transform: translateX(-160%) skewX(-18deg); }
+  22%  { transform: translateX(360%) skewX(-18deg); }
+  100% { transform: translateX(360%) skewX(-18deg); }
+}
+@media (hover: hover) {
+  .btn--fur:hover { box-shadow: 0 0 0 1px oklch(0.9 0.1 85 / 0.6) inset, 0 6px 8px -2px oklch(0.05 0 0 / 0.5), 0 0 40px -2px oklch(0.78 0.135 70 / 0.7); }
+}
+
+.btn--line {
+  margin-top: 22px;
+  color: var(--amber-hi);
+  background: oklch(0.2 0.02 62 / 0.8);
+  border: 1px solid oklch(0.78 0.135 70 / 0.55);
+}
+@media (hover: hover) { .btn--line:hover { border-color: var(--amber); } }
+.btn--group { margin-top: 12px; }
+
+/* Toque: anel de luz dourada saindo do ponto do dedo */
+.tap {
+  position: absolute;
+  width: 16px; height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 38%, oklch(0.95 0.08 85 / 0.9) 40%, transparent 62%);
+  animation: tap 560ms var(--ease-out) forwards;
+  z-index: 1;
+}
+@keyframes tap { from { transform: scale(1); opacity: 1; } to { transform: scale(14); opacity: 0; } }
+
+/* ---------- Seções ---------- */
+.section {
+  width: var(--col);
+  margin: clamp(88px, 18vw, 132px) auto 0;
+}
+.section__title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 8.5vw, 2.7rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.section__lead {
+  margin: 12px 0 0;
+  max-width: 60ch;
+  color: var(--text-dim);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+/* Prova social: fotos de clientes */
+.proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 26px;
+  padding-bottom: 32px; /* espaço para a coluna da direita descer */
+}
+.proof .shot:nth-child(even) { transform: translateY(32px); } /* colunas desencontradas */
+.shot {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--bg-2);
+  box-shadow: inset 0 0 0 1px oklch(0.78 0.135 70 / 0.22);
+}
+.shot[hidden] { display: none; }
+.shot img { width: 100%; height: 100%; object-fit: cover; }
+.shot::after { /* fio dourado por cima da foto */
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  box-shadow: inset 0 0 0 1px oklch(0.78 0.135 70 / 0.28);
+  pointer-events: none;
+}
+.shot--empty {
+  display: grid; place-content: center; gap: 4px;
+  padding: 14px;
+  text-align: center;
+  border: 1px dashed var(--line);
+  box-shadow: none;
+  background:
+    radial-gradient(circle at 30% 30%, oklch(0.78 0.135 70 / 0.08), transparent 60%),
+    var(--bg-2);
+}
+.shot--empty::after { display: none; }
+.shot--empty strong { font-size: 0.9rem; font-weight: 600; color: var(--text-dim); }
+.shot--empty code { font-size: 0.72rem; color: oklch(0.7 0.02 76); word-break: break-all; }
+
+.proof__more {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 22px;
+  min-height: 44px;
+  color: var(--amber);
+  font-weight: 600;
+  text-decoration: none;
+}
+.proof__more svg { width: 18px; height: 18px; transition: transform 200ms var(--ease-out); }
+@media (hover: hover) { .proof__more:hover svg { transform: translate(2px, -2px); } }
+
+/* Vídeos: 3 reels reais, em carrossel que desliza para o lado */
+.reels {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(68%, 250px);
+  gap: 12px;
+  margin: 26px calc(50% - 50vw) 0;  /* sangra até a borda da tela no celular */
+  padding: 0 max(20px, calc(50vw - 50%)) 6px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(20px, calc(50vw - 50%));
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.reels::-webkit-scrollbar { display: none; }
+@media (min-width: 720px) {
+  .reels { margin-inline: 0; padding-inline: 0; grid-auto-columns: 1fr; overflow: visible; }
+}
+.reel { margin: 0; scroll-snap-align: start; }
+.reel__play, .reel__video {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.reel__play {
+  padding: 0; border: 0; cursor: pointer; color: inherit;
+  box-shadow: inset 0 0 0 1px oklch(0.78 0.135 70 / 0.22);
+}
+.reel__video { object-fit: cover; background: #000; }
+.reel__play img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 700ms var(--ease-expo), filter 400ms var(--ease-out);
+}
+.reel__play::after { /* fio dourado + sombra para o ícone ler sobre qualquer capa */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  box-shadow: inset 0 0 0 1px oklch(0.78 0.135 70 / 0.3);
+  background: linear-gradient(180deg, transparent 55%, oklch(0.1 0.01 60 / 0.55));
+}
+.reel__icon {
+  position: absolute; left: 14px; bottom: 14px; z-index: 1;
+  display: grid; place-items: center;
+  width: 46px; height: 46px; border-radius: 50%;
+  color: var(--ink-on-amber);
+  background: var(--amber);
+  box-shadow: 0 0 0 6px oklch(0.78 0.135 70 / 0.18), 0 6px 18px -4px oklch(0.05 0 0 / 0.6);
+  transition: transform 300ms var(--ease-out);
+}
+.reel__icon svg { width: 20px; height: 20px; margin-left: 2px; }
+@media (hover: hover) {
+  .reel__play:hover img { transform: scale(1.04); }
+  .reel__play:hover .reel__icon { transform: scale(1.08); }
+}
+.reel__play:active .reel__icon { transform: scale(0.94); }
+.reel__play:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.reel figcaption { display: grid; gap: 1px; padding: 10px 2px 0; }
+.reel figcaption strong { font-weight: 600; font-size: 0.98rem; letter-spacing: -0.01em; }
+.reel figcaption span { font-size: 0.82rem; color: var(--text-dim); }
+
+.proof[hidden] { display: none; }
+.reels + .proof { margin-top: 34px; }
+
+
+.page { padding-bottom: clamp(64px, 14vw, 104px); }
+
+/* ---------- Abertura (só com JS e sem reduced-motion) ---------- */
+.intro-run .onca__base { opacity: 0; transform: scale(1.08); filter: brightness(0.2); }
+.intro-run .onca__eyes,
+.intro-run .onca__glow { opacity: 0; }
+.intro-run .hero__name { opacity: 0; }
+.intro-run .hero__meta,
+.intro-run .hero__cta { opacity: 0; transform: translateY(16px); }
+
+.s-face .onca__base {
+  opacity: 1; transform: none; filter: none;
+  transition: opacity 1100ms var(--ease-out), transform 1600ms var(--ease-expo), filter 1500ms var(--ease-out);
+}
+.s-eyes .onca__eyes { animation: eyesOn 900ms linear forwards; }
+.s-eyes .onca__glow { animation: glowOn 900ms linear forwards; }
+@keyframes eyesOn { 0% {opacity:0} 18% {opacity:.85} 30% {opacity:.15} 52% {opacity:1} 100% {opacity:1} }
+@keyframes glowOn { 0% {opacity:0} 18% {opacity:.6} 30% {opacity:0} 52% {opacity:.9} 100% {opacity:.7} }
+
+.s-name .hero__name { opacity: 1; transition: opacity 600ms var(--ease-out); }
+.s-rest .hero__meta,
+.s-rest .hero__cta { opacity: 1; transform: none; transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-expo); }
+.s-rest .hero__cta { transition-delay: 90ms; }
+
+/* A Júlia surge do escuro logo depois que os olhos da onça acendem */
+.intro-run .julia { opacity: 0; transform: translateX(-50%) scale(1.04); }
+.s-eyes .julia {
+  opacity: 1; transform: translateX(-50%);
+  transition: opacity 1600ms var(--ease-out) 500ms, transform 2000ms var(--ease-expo) 500ms;
+}
+
+/* olhos respirando depois da abertura */
+.intro-done .onca__glow { opacity: 0.7; animation: breathe 4.2s ease-in-out 1s infinite; }
+@keyframes breathe { 0%,100% { opacity: .55; } 50% { opacity: .95; } }
+
+/* ---------- Revelação das seções (o conteúdo já é visível sem JS) ---------- */
+.js .reveal:not(.is-in) .section__title { clip-path: inset(0 0 100% 0); transform: translateY(18px); }
+.js .reveal:not(.is-in) > :not(.section__title) { opacity: 0; transform: translateY(18px); }
+.js .reveal .section__title { transition: clip-path 900ms var(--ease-expo), transform 900ms var(--ease-expo); }
+.js .reveal > :not(.section__title) { transition: opacity 700ms var(--ease-out) 160ms, transform 800ms var(--ease-expo) 160ms; }
+
+/* ---------- Desktop ---------- */
+@media (min-width: 900px) {
+  :root { --col: 520px; }
+  .onca { width: min(400px, 44svh); }
+  .hero__art { --jw: min(430px, 48svh); }
+}
+
+/* ---------- Menos movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 1ms !important; }
+  .btn--fur::after { display: none; }
+  .js .reveal:not(.is-in) .section__title,
+  .js .reveal:not(.is-in) > * { clip-path: none; opacity: 1; transform: none; }
+  .onca__glow { opacity: 0.7; }
+}
